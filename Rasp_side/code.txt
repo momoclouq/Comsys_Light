@@ -1,0 +1,61 @@
+import RPi.GPIO as GPIO
+import time
+
+relay_pin = 23
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(relay_pin, GPIO.OUT)
+
+while (1):
+    
+    x=raw_input()
+    
+    if x == 'r':
+        GPIO.output(relay_pin, GPIO.HIGH)
+        print("Lamp is on")
+    
+    elif x == 's':
+        GPIO.output(relay_pin, GPIO.LOW)
+        print("Lamp is of")
+        
+    elif x == 'e':
+        GPIO.cleanup()
+        break
+    
+    else:
+        print("Wrong data")
+        
+print("finished")
+GPIO.cleanup()
+
+import RPi.GPIO as GPIO
+import time
+
+relay_pin = 23
+sensor_pin = 14
+
+def setup():
+    print("Program starting")
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(relay_pin, GPIO.OUT)
+    GPIO.setup(sensor_pin, GPIO.IN)
+    GPIO.output(relay_pin, GPIO.HIGH)
+
+def loop():
+    while (1):
+        if GPIO.input(sensor_pin)==GPIO.HIGH:
+            GPIO.output(relay_pin, GPIO.HIGH)
+            print("Lamp is on")
+        
+        else:
+            GPIO.output(relay_pin, GPIO.LOW)
+            print("Lamp is off")
+        
+if __name__ == '__main__':
+    setup()
+    try:
+        loop()
+    except KeyboardInterrupt:
+        print("Finished")
+        GPIO.cleanup()
